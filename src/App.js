@@ -1,8 +1,13 @@
-import { CategoryList } from './components/category-list/CategoryList';
-import { CATEGORIES } from './constants/categories.constants';
+import { Outlet } from 'react-router-dom';
+import { Header } from './components/header/Header';
 
 function App() {
-  return <CategoryList categories={CATEGORIES} />;
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  );
 }
 
 export default App;
