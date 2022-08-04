@@ -34,5 +34,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "sass": "^1.54.2"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "bracketSpacing": true,
+    "trailingComma": "es5",
+    "arrowParens": "always",
+    "singleQuote": true,
+    "jsxSingleQuote": true
   }
 }
