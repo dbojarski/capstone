@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import {
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   getAuth,
   signInWithPopup,
@@ -26,7 +27,8 @@ provider.setCustomParameters({
 export const auth = getAuth();
 
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
-
+export const signInWithCredentials = (email, password) =>
+  signInWithEmailAndPassword(auth, email, password);
 export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (userAuth) => {

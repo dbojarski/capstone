@@ -1,0 +1,16 @@
+import {
+  createUserDocumentFromAuth,
+  signInWithGooglePopup,
+} from '../../utils/firebase/firebase.utils';
+import { SignUpForm } from '../../components/sign-up-form/SignUpForm';
+import { SignInForm } from '../../components/sign-in-form/SignInForm';
+import './Authentication.scss';
+
+export function Authentication() {
+  return (
+    <div className='authentication-container'>
+      <SignInForm />
+      <SignUpForm />
+    </div>
+  );
+}

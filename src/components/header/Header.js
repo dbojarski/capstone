@@ -14,7 +14,7 @@ export function Header() {
           SHOP
         </Link>
 
-        <Link className='Header-link' to='/sign-in'>
+        <Link className='Header-link' to='/auth'>
           SIGN IN
         </Link>
       </div>

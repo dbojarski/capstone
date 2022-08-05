@@ -35,9 +35,7 @@ export function SignUpForm() {
 
       await createUserDocumentFromAuth({ ...user, displayName });
       setFormFields(defaultFormFields);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (
