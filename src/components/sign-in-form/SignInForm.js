@@ -21,7 +21,6 @@ export function SignInForm() {
     const { user } = await signInWithGooglePopup();
 
     try {
-      await createUserDocumentFromAuth(user);
       setSignInFields(signInDefaultFields);
     } catch (error) {
       switch (error.code) {
@@ -41,8 +40,7 @@ export function SignInForm() {
     event.preventDefault();
 
     try {
-      const response = await signInWithCredentials(email, password);
-      console.log(response);
+      await signInWithCredentials(email, password);
       setSignInFields(signInDefaultFields);
     } catch (error) {}
   };
