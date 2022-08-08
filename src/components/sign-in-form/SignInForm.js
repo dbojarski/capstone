@@ -1,7 +1,6 @@
 import { FormInput } from '../form-input/FormInput';
 import { Button } from '../button/Button';
 import {
-  createUserDocumentFromAuth,
   signInWithCredentials,
   signInWithGooglePopup,
 } from '../../utils/firebase/firebase.utils';
@@ -18,7 +17,7 @@ export function SignInForm() {
   const { email, password } = signInFields;
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
+    await signInWithGooglePopup();
 
     try {
       setSignInFields(signInDefaultFields);

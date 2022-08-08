@@ -1,12 +1,18 @@
 import { Outlet } from 'react-router-dom';
 import { Header } from './components/header/Header';
-import { UserProvider } from './contexts/UserContext';
+import { UserProvider } from './contexts/userContext';
+import { ProductsProvider } from './contexts/productsContext';
+import { CartProvider } from './contexts/cartContext';
 
 function App() {
   return (
     <UserProvider>
-      <Header />
-      <Outlet />
+      <ProductsProvider>
+        <CartProvider>
+          <Header />
+          <Outlet />
+        </CartProvider>
+      </ProductsProvider>
     </UserProvider>
   );
 }
