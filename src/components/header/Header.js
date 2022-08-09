@@ -10,8 +10,12 @@ import { CartContext } from '../../contexts/cartContext';
 
 export function Header() {
   const { currentUser } = useContext(UserContext);
-  const { isCartDropdownVisible, setCartDropdownVisibility, products } =
-    useContext(CartContext);
+  const {
+    isCartDropdownVisible,
+    setCartDropdownVisibility,
+    products,
+    cartCount,
+  } = useContext(CartContext);
 
   const handleSignOut = async () => {
     try {
@@ -43,9 +47,9 @@ export function Header() {
           </Link>
         )}
 
-        <CartIcon count={products.length} onClick={toggleCartDropdown} />
+        <CartIcon cartCount={cartCount} onClick={toggleCartDropdown} />
       </div>
-      {isCartDropdownVisible && <CartDropdown />}
+      {isCartDropdownVisible && <CartDropdown products={products} />}
     </div>
   );
 }
