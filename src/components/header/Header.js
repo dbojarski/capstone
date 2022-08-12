@@ -1,12 +1,11 @@
-import { Link } from 'react-router-dom';
 import { ReactComponent as CrownLogo } from '../../assets/crown.svg';
-import './Header.scss';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/userContext';
 import { signOut } from '../../utils/firebase/firebase.utils';
 import { CartIcon } from '../cart-icon/CartIcon';
 import { CartDropdown } from '../cart-dropdown/CartDropdown';
 import { CartContext } from '../../contexts/cartContext';
+import { Container, LogoLink, HeaderLink, HeaderLinks } from './Header.styles';
 
 export function Header() {
   const { currentUser } = useContext(UserContext);
@@ -27,29 +26,25 @@ export function Header() {
   };
 
   return (
-    <div className='Header'>
-      <Link className='Header-logo' to='/'>
+    <Container>
+      <LogoLink to='/'>
         <CrownLogo />
-      </Link>
+      </LogoLink>
 
-      <div className='Header-links'>
-        <Link className='Header-link' to='/shop'>
-          SHOP
-        </Link>
+      <HeaderLinks>
+        <HeaderLink to='/shop'>SHOP</HeaderLink>
 
         {currentUser ? (
-          <span className='Header-link' onClick={handleSignOut}>
+          <HeaderLink as='span' onClick={handleSignOut}>
             SIGN OUT
-          </span>
+          </HeaderLink>
         ) : (
-          <Link className='Header-link' to='/auth'>
-            SIGN IN
-          </Link>
+          <HeaderLink to='/auth'>SIGN IN</HeaderLink>
         )}
 
         <CartIcon cartCount={cartCount} onClick={toggleCartDropdown} />
-      </div>
+      </HeaderLinks>
       {isCartDropdownVisible && <CartDropdown products={products} />}
-    </div>
+    </Container>
   );
 }

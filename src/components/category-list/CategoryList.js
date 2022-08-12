@@ -1,12 +1,12 @@
 import { Category } from '../category/Category';
-import './CategoryList.scss';
+import { Container } from './CategoryList.styles';
 
 export function CategoryList({ categories }) {
   return (
-    <div className='categories-container'>
+    <Container>
       {categories.map((category) => (
         <Category key={category.id} category={category} />
       ))}
-    </div>
+    </Container>
   );
 }

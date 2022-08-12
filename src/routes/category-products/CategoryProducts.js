@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { CategoriesContext } from '../../contexts/categoriesContext';
 import { useParams } from 'react-router-dom';
 import { ProductCard } from '../../components/product-card/ProductCard';
-import './CategoryProducts.scss';
+import { ProductsContainer, ProductTitle } from './CategoryProducts.styles';
 
 export function CategoryProducts() {
   const { categoriesMap } = useContext(CategoriesContext);
@@ -16,13 +16,13 @@ export function CategoryProducts() {
 
   return (
     <>
-      <h2 className='category-products-title'>{category}</h2>
-      <div className='category-products-container'>
+      <ProductTitle>{category}</ProductTitle>
+      <ProductsContainer>
         {products &&
           products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-      </div>
+      </ProductsContainer>
     </>
   );
 }
