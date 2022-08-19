@@ -66,13 +66,7 @@ export const getCollectionAndDocuments = async (collectionName) => {
   const q = query(collectionRef);
   const querySnapshot = await getDocs(q);
 
-  return querySnapshot.docs.reduce((current, next) => {
-    const { title, items } = next.data();
-
-    current[title.toLowerCase()] = items;
-
-    return current;
-  }, {});
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 };
 
 export const createUserDocumentFromAuth = async (userAuth) => {

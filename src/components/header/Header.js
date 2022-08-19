@@ -1,28 +1,25 @@
 import { ReactComponent as CrownLogo } from '../../assets/crown.svg';
-import { useContext } from 'react';
-import { UserContext } from '../../contexts/userContext';
 import { signOut } from '../../utils/firebase/firebase.utils';
 import { CartIcon } from '../cart-icon/CartIcon';
 import { CartDropdown } from '../cart-dropdown/CartDropdown';
-import { CartContext } from '../../contexts/cartContext';
 import { Container, LogoLink, HeaderLink, HeaderLinks } from './Header.styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUser } from '../../store/user/user.selector';
+import { setCartDropdownVisibility } from '../../store/cart/cart.action';
+import { selectCart, selectCartCount } from '../../store/cart/cart.selector';
 
 export function Header() {
-  const { currentUser } = useContext(UserContext);
-  const {
-    isCartDropdownVisible,
-    setCartDropdownVisibility,
-    products,
-    cartCount,
-  } = useContext(CartContext);
-
+  const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
+  const { dropdownVisible, products } = useSelector(selectCart);
+  const cartCount = useSelector(selectCartCount);
   const handleSignOut = async () => {
     try {
       await signOut();
     } catch (error) {}
   };
   const toggleCartDropdown = () => {
-    setCartDropdownVisibility(!isCartDropdownVisible);
+    dispatch(setCartDropdownVisibility(!dropdownVisible));
   };
 
   return (
@@ -44,7 +41,7 @@ export function Header() {
 
         <CartIcon cartCount={cartCount} onClick={toggleCartDropdown} />
       </HeaderLinks>
-      {isCartDropdownVisible && <CartDropdown products={products} />}
+      {dropdownVisible && <CartDropdown products={products} />}
     </Container>
   );
 }
