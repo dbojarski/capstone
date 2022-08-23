@@ -1,11 +1,12 @@
 import { FormInput } from '../form-input/FormInput';
 import { Button, BUTTON_TYPE_CLASSES } from '../button/Button';
-import {
-  signInWithCredentials,
-  signInWithGooglePopup,
-} from '../../utils/firebase/firebase.utils';
 import { useState } from 'react';
 import { ButtonsContainer, Container } from './SignInForm.styles';
+import { useDispatch } from 'react-redux';
+import {
+  emailSignInStart,
+  googleSignInStart,
+} from '../../store/user/user.action';
 
 const signInDefaultFields = {
   email: '',
@@ -13,35 +14,15 @@ const signInDefaultFields = {
 };
 
 export function SignInForm() {
+  const dispatch = useDispatch();
   const [signInFields, setSignInFields] = useState(signInDefaultFields);
   const { email, password } = signInFields;
 
-  const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
+  const signInWithGoogle = () => dispatch(googleSignInStart());
 
-    try {
-      setSignInFields(signInDefaultFields);
-    } catch (error) {
-      switch (error.code) {
-        case 'auth/wrong-password':
-          alert('Incorrect password for email');
-          break;
-        case 'auth/user-not-found':
-          alert('no user associated with this email');
-          break;
-        default:
-          console.log(error);
-      }
-    }
-  };
-
-  const signIn = async (event) => {
+  const signIn = (event) => {
     event.preventDefault();
-
-    try {
-      await signInWithCredentials(email, password);
-      setSignInFields(signInDefaultFields);
-    } catch (error) {}
+    dispatch(emailSignInStart(email, password));
   };
 
   const handleChange = ({ target: { name, value } }) => {
