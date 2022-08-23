@@ -3,7 +3,7 @@ import { CategoriesPreview } from '../../components/categories-preview/Categorie
 import { CategoryProducts } from '../category-products/CategoryProducts';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategoriesAsync } from '../../store/categories/categories.action';
+import { fetchCategoriesStart } from '../../store/categories/categories.action';
 import { selectCategoriesIsLoading } from '../../store/categories/categories.selector';
 import { Spinner } from '../../components/spinner/Spinner';
 
@@ -12,7 +12,7 @@ export function Shop() {
   const categoriesLoading = useSelector(selectCategoriesIsLoading);
 
   useEffect(() => {
-    dispatch(fetchCategoriesAsync());
+    dispatch(fetchCategoriesStart());
   }, [dispatch]);
 
   return (
