@@ -10,22 +10,26 @@ import { Checkout } from './routes/checkout/Checkout';
 import { Provider } from 'react-redux';
 import { store, persistor } from './store/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Elements } from '@stripe/react-stripe-js';
+import { stripePromise } from './utils/stripe/stripe.utils';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
   <Provider store={store}>
     <PersistGate persistor={persistor}>
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<App />}>
-            <Route index element={<Home />} />
-            <Route path='shop/*' element={<Shop />} />
-            <Route path='auth' element={<Authentication />} />
-            <Route path='checkout' element={<Checkout />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <Elements stripe={stripePromise}>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<App />}>
+              <Route index element={<Home />} />
+              <Route path='shop/*' element={<Shop />} />
+              <Route path='auth' element={<Authentication />} />
+              <Route path='checkout' element={<Checkout />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </Elements>
     </PersistGate>
   </Provider>
   // </React.StrictMode>
