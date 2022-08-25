@@ -5,17 +5,24 @@ import {
   PaymentFormContainer,
 } from './PaymentForm.styles';
 import { BUTTON_TYPE_CLASSES } from '../button/Button';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectCartTotalPrice } from '../../store/cart/cart.selector';
 import { selectCurrentUser } from '../../store/user/user.selector';
+import { startPayment } from '../../store/payment/payment.action';
+import {
+  selectPaymentIsLoading,
+  selectPaymentSucceed,
+} from '../../store/payment/payment.selector';
+import { useEffect } from 'react';
 
 export function PaymentForm() {
+  const dispatch = useDispatch();
+  const paymentLoading = useSelector(selectPaymentIsLoading);
+  const paymentSucceed = useSelector(selectPaymentSucceed);
   const stripe = useStripe();
   const elements = useElements();
   const amount = useSelector(selectCartTotalPrice);
   const currentUser = useSelector(selectCurrentUser);
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const paymentHandler = async (e) => {
     e.preventDefault();
@@ -24,35 +31,21 @@ export function PaymentForm() {
       return;
     }
 
-    setIsProcessingPayment(true);
-
-    const response = await fetch('/.netlify/functions/create-payment-intent', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ amount: amount * 100 }),
-    }).then((res) => res.json());
-    const clientSecret = response.paymentIntent.client_secret;
-    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: currentUser ? currentUser.displayName : 'Guest',
-        },
-      },
-    });
-
-    setIsProcessingPayment(false);
-
-    if (paymentResult.error) {
-      alert(paymentResult.error);
-    } else {
-      if (paymentResult.paymentIntent.status === 'succeeded') {
-        alert('payment successful');
-      }
-    }
+    dispatch(
+      startPayment({
+        amount,
+        stripe,
+        cardElement: elements.getElement(CardElement),
+        name: currentUser ? currentUser.displayName : 'Guest',
+      })
+    );
   };
+
+  useEffect(() => {
+    if (paymentSucceed) {
+      alert('payment successful');
+    }
+  }, [paymentSucceed]);
 
   return (
     <PaymentFormContainer>
@@ -60,7 +53,7 @@ export function PaymentForm() {
         <h2>Credit Card Payment:</h2>
         <CardElement />
         <PaymentButton
-          isLoading={isProcessingPayment}
+          isLoading={paymentLoading}
           buttonType={BUTTON_TYPE_CLASSES.inverted}
         >
           Pay now
