@@ -1,9 +1,10 @@
 const express = require('express');
+const path = require('node:path');
 const app = express();
 const port = process.env.PORT || 8080;
 
 app.get('*', (req, res) => {
-  res.send('Hello world');
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 app.listen(port, () => {
