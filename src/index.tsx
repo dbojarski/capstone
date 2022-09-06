@@ -41,4 +41,4 @@ root.render(
     </Provider>
   </Suspense>
 );
-serviceWorkerRegistration.unregister();
+serviceWorkerRegistration.register();
