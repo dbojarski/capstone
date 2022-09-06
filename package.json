@@ -43,9 +43,9 @@
   "scripts": {
     "server": "node src/server.js",
     "start": "react-scripts start",
+    "build": "npm install && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm install && npm run build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
